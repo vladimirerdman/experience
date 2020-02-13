@@ -1,0 +1,282 @@
+@charset "UTF-8";
+
+/**
+@author Vladimir P. Erdman [v.p.erdman@gmail.com]
+ */
+
+*, *:after, *:before{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+strong {
+    font-weight: bold;
+}
+h1,h2,h3,h4,h5,h6 {}
+a {
+	letter-spacing: 2px;
+}
+body {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/**
+Body
+ */
+.content {
+	overflow: hidden;
+	position: relative;
+}
+#hiddenfromeye {
+	/*position: absolute;*/
+	clip: rect(1px, 1px, 1px, 1px);
+	-webkit-clip-path: inset(0px 0px 99.9% 99.9%);
+	clip-path: inset(0px 0px 99.9% 99.9%);
+	margin: 0;
+	padding: 0;
+	display: block;
+	font-size: 3.44em;
+	color: transparent;
+}
+/*font-size as minimum should be: 1.72em;*/
+/*maximum font-size: 3.44em*/
+aside {
+	position: absolute;
+	height: 100%;
+	background-color: #f6f6f6;
+	z-index: 0;
+}
+article{
+	margin-left: 250px;
+	padding: 2em 3em 2em 3em;
+}
+
+/**
+Urls
+ */
+.nav_a{
+	font-size: 1em;
+}
+.nav_a:hover{
+	cursor: pointer;
+	color: #0084ec;
+	text-decoration: underline;
+}
+li.nav_li.active a {
+	color: #0084ec;
+}
+li.nav_li.active a:hover {
+	color: #0084ec;
+	text-decoration: none;
+	cursor: default;
+}
+.nav_li{
+	list-style-type: none;
+}
+
+/**
+Header
+ */
+header{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 10;
+}
+#headerLogo_span {
+	color: #fff;
+	font-weight: 500;
+	font-size: 1em;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+#headerLogo_a {
+	color: #fff;
+	font-weight: 500;
+	font-size: 1em;
+	letter-spacing: 0px !important;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+#headerLogo_a:hover {
+	text-decoration: none;
+}
+@media (max-width: 767px) {
+	.headerRow {
+		width: 100%;
+		margin: 0;
+	}
+	.headerCol{
+		background-color: #3c3b3b;
+		z-index: 10;
+		padding: 0;
+	}
+	.headerMobileLogo_div{
+		text-align: center;
+		background-color: #3c3b3b;
+		z-index: 10;
+		padding: 9px 15px;
+	}
+	#headerLogo_a:hover {
+		color: #e6e6e6;
+	}
+	.headerLogout_a {
+		padding: 12px 10px 12px 16px;
+	}
+}
+@media (min-width: 768px) {
+	#btnMenuMobile{
+		display: none;
+	}
+	.headerRow {
+		padding: 0px 2em;
+		background-color: rgba(0,0,0,0.8);
+	}
+	#headerLogo_a:hover {
+		color: #e3e3e3;
+	}
+	.headerLogout_a {
+		padding: 12px 0px 12px 16px;
+	}
+}
+
+/**
+Button Menu Icon
+ */
+.toggleTopNavOverlay{
+	cursor: pointer;
+	z-index: 10;
+	position: relative;
+	background: transparent;
+	width: 48px;
+	height: 44px;
+	padding: 15px;
+}
+.line {
+	position: absolute;
+	height: 1px;
+	width: 17px;
+	background: #fff;
+	transition: all cubic-bezier(0.26, 0.1, 0.27, 1.55) 0.35s;
+	/*transition: .30s;*/
+}
+.top {
+	top: 42%;
+	transform: rotate(0deg);
+	transition: top .20s .15s, transform .30s;
+}
+.bottom {
+	top: 56%;
+	transform: rotate(0deg);
+	transition: top .20s .15s, transform .30s;
+}
+.toggleMenuIcon.active .top {
+	top: 48%;
+	transform: rotate(45deg);
+	transition: top .20s, transform .30s .15s;
+}
+.toggleMenuIcon.active .bottom {
+	top: 48%;
+	transform: rotate(-45deg);
+	transition: top .20s, transform .30s .15s;
+}
+.toggleTopNavOverlay:hover .line {
+	background: #bdbdbd;
+}
+
+/**
+ *Header Mobile Logout Icon
+ */
+.headerLogoutIcon {
+	color: #fff; 
+	width: 19px; 
+	height: 19px;
+}
+.headerLogout_a {
+	margin: 0; 
+	font-size: 23px;
+	line-height: 18px;
+}
+.headerLogout_a:hover .headerLogoutIcon {
+	color: #bdbdbd;
+}
+
+/**
+Mobile Navigation Overlay
+ */
+.topNavOverlay {
+	position: fixed;
+	top: -150%;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: #3c3b3b;
+	display: flex;
+	justify-content: center;
+	align-items:center;
+	transition: 0.5s;
+	z-index: 9;
+}
+.topNavOverlay ul {
+	position: relative;
+	padding: 0;
+}
+.topNavOverlay_ul li {
+	text-align: center;
+}
+.topNavOverlay_ul li a {
+	color: #d8d8d8;
+	padding: 5px;
+	letter-spacing: 2px;
+}
+.topNavOverlay.active{
+	top: 0;
+}
+
+/**
+Mobile Nav Overlay
+ */
+.hide_scroll{
+	position: fixed;
+	width: 100%;
+}
+
+/**
+Left Navigation Menu
+ */
+.leftNavInfoBlock{
+	padding: 2em 3em 1em 1em;
+}
+.paddingBottom_oFive{
+	padding-bottom: 0.5em;
+}
+.leftNavInfoBlock li a {
+	color: #555;
+}
+
+/**
+Language confirmation
+ */
+.langConf {
+	color: #007bff;
+}
+.langConf:hover {
+	cursor: pointer;
+}
+.langConfOnTop {
+	color: #fff;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	flex-direction: unset;
+	justify-content: center;
+	z-index: 10;
+	height: 100%;
+	background-color: #444;
+}

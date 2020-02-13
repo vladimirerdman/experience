@@ -1,0 +1,33 @@
+User-agent: Yandex
+Clean-param: utm_source&utm_medium&utm_campaign&sid&gclid&page&lang&print&delete
+
+User-agent: Googlebot
+Disallow: /*?utm_source=
+Disallow: /*&utm_medium=
+Disallow: /*&utm_campaign=
+Disallow: /*?sid=
+Disallow: /*?gclid=
+Disallow: /*?page=
+Disallow: /*?lang=
+Disallow: /*?delete=
+Disallow: /*?print=
+
+User-Agent: *
+Disallow: /xorax/
+Disallow: /auth/
+Disallow: /conf/
+Disallow: /lang/
+Disallow: /local/
+Disallow: /logs/
+Disallow: /upload/
+Disallow: /*?logout
+Disallow: /errors/
+#Disallow: /choose-your-language/
+#Disallow: /overview/
+#Disallow: /roadmap/
+#Disallow: /targets/
+#Disallow: /index.php
+Disallow: /*print.php
+Disallow: /me/
+
+Sitemap: https://xorax.ru/smartnote/sitemap.xml

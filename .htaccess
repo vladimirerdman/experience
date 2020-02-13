@@ -1,0 +1,118 @@
+<IfModule mod_rewrite.c>
+  php_flag display_errors On
+  Options +FollowSymLinks
+  RewriteEngine On
+
+  RewriteBase /smartnote/
+
+  #Put here the code to add missing trailing slash
+  #...
+
+  #Remove double trailing slashes
+  RewriteCond %{THE_REQUEST} //
+  RewriteRule ^(.*)$ $0 [R=301,L]
+
+  #Remove index.php from all URLs - this code has problems (but everything fine even without this code)
+  #RewriteCond %{REQUEST_URI} ^.*/index.php
+  #RewriteRule ^(.*)index.php$ $1 [R=301,L]
+
+  #Put here redirect to lang if cookie set
+  #...
+
+  #Remove leading www from all requests
+  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+  RewriteRule ^(.*) http://%1/smartnote/$1 [R=301,L]
+
+  #Replace http to https
+  #RewriteCond %{HTTP:X-SSL} !^yes$
+  #RewriteRule ^(.*)$ https://%{HTTP_HOST}/smartnote/$1 [R=301,L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f [NC]
+  RewriteCond %{REQUEST_FILENAME} !-l [NC]
+  RewriteCond %{REQUEST_FILENAME} !-d [NC]
+  RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
+
+  #Remove get parameter "logout" from URL
+  #RewriteCond %{QUERY_STRING}  ^logout$ [NC]
+  #RewriteRule ^(.*)$ $1? [R=302,L]
+
+  #RewriteCond %{REQUEST_URI} ^(targets)$
+  RewriteCond %{QUERY_STRING} ^lang=ru$
+  RewriteRule ^targets/$ targets/? [L,R=301]
+
+  #Redirect for section TARGETS with language RU from duplicated pages
+  RewriteCond %{QUERY_STRING} ^page\=([_A-Za-z0-9-]+)$
+  RewriteRule ^targets/detail\.php$ https://xorax.ru/smartnote/targets/%1? [L,R=301]
+  RewriteRule ^targets/([_A-Za-z0-9-]+)$ targets/detail.php?page=$1&lang=ru [QSA,L]
+
+  #Rewrite URL with Get param
+  RewriteRule ^$ index.php?lang=ru [QSA,L]
+  RewriteRule ^(en)/$ index.php?lang=en [QSA,L]
+  RewriteRule ^(en)/targets/([_A-Za-z0-9-]+)$ targets/detail.php?page=$2&lang=en [QSA,L]
+  RewriteRule ^targets/$ targets/index.php?lang=ru [QSA,L]
+  RewriteRule ^(en)/targets/$ targets/index.php?lang=en [QSA,L]
+  RewriteRule ^([_A-Za-z0-9-]+)/$ $1/index.php?lang=ru [QSA,L]
+  RewriteRule ^(en)/([_A-Za-z0-9-]+)/$ $2/index.php?lang=en [QSA,L]
+  #Redirect for general page
+  #RewriteCond %{QUERY_STRING} !lang=(ru)
+  #RewriteRule ^$ https://xorax.ru/smartnote/en/ [R=301,L]
+
+  #Own error pages
+  ErrorDocument 400 /smartnote/errors/401.php
+  ErrorDocument 401 /smartnote/errors/401.php
+  ErrorDocument 403 /smartnote/errors/403.php
+  ErrorDocument 404 /smartnote/errors/404.php
+  ErrorDocument 500 /smartnote/errors/500.php
+
+  #Black list of IP address
+  #Allow from all
+  #Deny from 145.186.14.122
+  #Deny from 124.15.
+
+  #--------------------------------
+
+  #To remove duplicated content with index.php?id=
+  #RewriteCond %{QUERY_STRING} ^id= RewriteRule (.*) /$1? [R=301,L]
+
+  #Close access by IP except chosen
+  #Order deny,allow
+  #Deny from all
+  #Allow from 109.252.83.231
+
+  #Remove dir from an url
+  #RewriteRule ^category/(.+)$ https://xorax.ru/$1 [R=301,L]
+
+</IfModule>
+
+#Server side cache
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 6 months"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/gif "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/pdf "access plus 1 month"
+  ExpiresByType text/x-javascript "access plus 1 month"
+  ExpiresByType application/x-shockwave-flash "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 3 months"
+  ExpiresDefault "access plus 1 month"
+</IfModule>
+
+#Data compression
+<IfModule mod_gzip.c>
+  mod_gzip_on Yes
+  mod_gzip_dechunk Yes
+  mod_gzip_item_include file .(html?|txt|css|js|php|pl)$
+  mod_gzip_item_include handler ^cgi-script$
+  mod_gzip_item_include mime ^text/.*
+  mod_gzip_item_include mime ^application/x-javascript.*
+  mod_gzip_item_exclude mime ^image/.*
+  mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</IfModule>
+
+#Close remote access to .htaccess
+<files .htaccess>
+  order allow,deny
+  deny from all
+</files>
